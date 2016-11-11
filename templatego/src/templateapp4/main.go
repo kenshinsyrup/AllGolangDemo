@@ -2,6 +2,7 @@ package main
 
 import (
 	"allgolangdemo/templatego/src/templateapp4/views"
+	"fmt"
 	"net/http"
 )
 
@@ -22,5 +23,13 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
-	contact.Render(w, nil)
+	fmt.Println(r.Method)
+	if r.Method == "GET" {
+		contact.Render(w, nil)
+	}
+	if r.Method == "POST" {
+		r.ParseForm()
+		fmt.Println("username:", r.Form["username"])
+		fmt.Println("password:", r.Form["password"])
+	}
 }

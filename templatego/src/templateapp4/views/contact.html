@@ -1,7 +1,7 @@
 {{define "yield"}}
 <h1>Thands for reaching out!</h1>
 <div class="well">
-    <form action="/todo">
+    <form action="/contact" method="post">
         <div class="form-group">
             <label for="email">Your Email</label>
             <input type="email" class="form-control" id="email" placeholder="Enter your email address">
@@ -10,6 +10,9 @@
             <label for="message">message</label>
             <input type="textarea" class="form-control" id="message" placeholder="Enter your message here">
         </div>
+        Username:<input type="text" name="username"> 
+        Password:<input type="password" name="password">
+        <input type="submit" value="Login">
     </form>
 </div>
 {{end}}
