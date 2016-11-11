@@ -1,0 +1,72 @@
+<!--The and function takes in two arguments, lets call them a and b, and then runs logic roughly equivalent to if a then b else a. The weirdest part is that and is indeed a function instead of something you place between two variables-->
+<!--the template package also provides an or function that operates much like and except it will short circuit when true. IE the logic for or a b is roughly equivalent to if a then a else b so b will never be evaluated if a is not empty.-->
+<!--{{if and .User .User.Admin}}
+    you are an admin user!
+{{else}}
+    Access denied!
+{{end}}-->
+
+<!--comparison-->
+<!--
+eq - Returns the boolean truth of arg1 == arg2
+ne - Returns the boolean truth of arg1 != arg2
+lt - Returns the boolean truth of arg1 < arg2
+le - Returns the boolean truth of arg1 <= arg2
+gt - Returns the boolean truth of arg1 > arg2
+ge - Returns the boolean truth of arg1 >= arg2
+-->
+<!--These are used similarly to how and and or are used, where you first type the function and then type the arguments-->
+<!--{{if (ge .Usage .Limit)}}
+    <p class="danger">
+        You have reached your API usage limit.Please upgrade or contact support for more help.
+    </p>
+{{else if (gt .Usage .Warning)}}
+    <p class="warning">
+        You have used {{.Usage}} of {{.Limit}} API calls and are nearing your limit. Have you considered upgrading?
+    </p>
+{{else if (eq .Usage 0)}}
+    <p>
+        You haven't used the API yet! What are you waiting for?
+    </p>
+{{else}}
+    <p>
+        Your have used {{.Usage}} of {{.Limit}} API calls.
+    </p>
+{{end}}-->
+
+{{if .User.HasPermission "feature-a"}}
+    <div class="feature">
+        <h3>Feature A</h3>
+        <p>Some other stuff here...</p>
+    </div>
+{{else}}
+    <div class="feature disabled">
+        <h3>Feature A</h3>
+        <p>To enable Feature A please upgrade your plan</p>
+    </div>
+{{end}}
+
+{{if .User.HasPermission "feature-b"}}
+    <div class="feature">
+        <h3>Feature B</h3>
+        <p>Some other stuff here...</p>
+    </div>
+{{else}}
+    <div class="feature disabled">
+        <h3>Feature B</h3>
+        <p>To enable Feature B please upgrade your plan</p>
+    </div>
+{{end}}
+
+<style>
+    .feature{
+        border: 1px solid #eee;
+        padding: 10px;
+        margin: 5px;
+        width:45%;
+        display: inline-block;
+    }
+    .disabled{
+        color: #ccc;
+    }
+</style>

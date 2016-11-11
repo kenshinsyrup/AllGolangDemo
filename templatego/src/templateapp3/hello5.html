@@ -1,0 +1,36 @@
+{{if hasPermission .User "feature-a"}}
+    <div class="feature">
+        <h3>Feature A</h3>
+        <p>Some other stuff here...</p>
+    </div>
+{{else}}
+    <div class="feature disabled">
+        <h3>Feature A</h3>
+        <p>To enable Feature A please upgrade your plan</p>
+    </div>
+{{end}}
+
+{{if hasPermission .User "feature-b"}}
+    <div class="feature">
+        <h3>Feature B</h3>
+        <p>Some other stuff here...</p>
+    </div>
+{{else}}
+    <div class="feature disabled">
+        <h3>Feature B</h3>
+        <p>To enable Feature B please upgrade your plan</p>
+    </div>
+{{end}}
+
+<style>
+    .feature{
+        border: 1px solid #eee;
+        padding: 10px;
+        margin: 5px;
+        width:45%;
+        display: inline-block;
+    }
+    .disabled{
+        color: #ccc;
+    }
+</style>

@@ -1,0 +1,50 @@
+<!--When you define a template you can use it inside of any other template and can even use it multiple times-->
+{{define "footer"}}
+<footer>
+    <p>
+        Copyright 2016
+    </p>
+    <p>
+        Contact information: <a href="www.google.com">google</a>.
+    </p>
+</footer>
+{{end}}
+
+{{define "widget-header"}}
+<h3 class="name">{{.}}</h3>
+{{end}}
+
+{{define "widget"}}
+<div class="widget">
+    {{template "widget-header" .Name}}
+    <span class="price">${{.Price}}</span>
+{{end}}
+
+<!--1、In this code snippet we are telling the template package that we don't want all spaces between the Name variable and whatever comes after it by putting the minus character at the front of the else keyword, and we are also doing the same with the end keyword on the second to last line. -->
+<h1>
+    Hello,
+    {{if .Name}}
+        {{.Name}}
+    {{- else}}
+        there
+    {{- end}}!
+</h1>
+
+<!--2.The most common source of confusion with the range action is that we are accessing individual attributes of a widget without needing to use an index or any other accessor inside of the .Widgets value. This is because the range action will set the value of each object in the collection to the dot (.) inside of the range block.For example,look at line 15-->
+ {{range .Widgets}}
+    <div class="widget">
+        <!--the template action allows you to pass in a second argument that will be assigned to the dot (.) argument inside of the template-->
+        {{template "widget-header" .Name}}
+        <!--<h3 class="name">{{.Name}}</h3>-->
+        <span class="price">${{.Price}}</span>
+    </div>    
+    <pre>{{.}}</pre>
+{{end}}
+
+<!--multiple nested templates, equql to upper one-->
+{{range .Widgets}}
+    {{template "widget" .}}
+{{end}}    
+
+<!--nested template,the defination is on the top of the file-->
+{{template "footer"}}

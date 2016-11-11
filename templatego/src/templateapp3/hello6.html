@@ -1,0 +1,46 @@
+{{ifIE}}
+<meta http-equiv="Content-Type" content="text/html; charset=Unicode">  
+{{endif}}
+
+{{htmlSafe "<!--[if IE 6]>"}}
+<meta http-equiv="Content-Type" content="text/html; charset=Unicode">  
+{{htmlSafe "<![endif]-->"}}
+
+<!--Test-->
+
+{{if hasPermission "feature-a"}}
+    <div class="feature">
+        <h3>Feature A</h3>
+        <p>Some other stuff here...</p>
+    </div>
+{{else}}
+    <div class="feature disabled">
+        <h3>Feature A</h3>
+        <p>To enable Feature A please upgrade your plan</p>
+    </div>
+{{end}}
+
+{{if hasPermission "feature-b"}}
+    <div class="feature">
+        <h3>Feature B</h3>
+        <p>Some other stuff here...</p>
+    </div>
+{{else}}
+    <div class="feature disabled">
+        <h3>Feature B</h3>
+        <p>To enable Feature B please upgrade your plan</p>
+    </div>
+{{end}}
+
+<style>
+    .feature{
+        border: 1px solid #eee;
+        padding: 10px;
+        margin: 5px;
+        width:45%;
+        display: inline-block;
+    }
+    .disabled{
+        color: #ccc;
+    }
+</style>
