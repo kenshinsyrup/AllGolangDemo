@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
-	"sync"
 )
 
 type PageInfo struct {
@@ -52,32 +51,46 @@ func main() {
 	defer db.Close()
 
 	var pn int
+	// for {
+	// 	// wg := &sync.WaitGroup{}
+	// 	var mutex sync.Mutex
+	// 	for i := 0; i < 5; i++ {
+	// 		// wg.Add(1)
+	// 		go func() {
+	// 			// defer wg.Done()
+	// 			mutex.Lock()
+	// 			pn++
+	// 			mutex.Unlock()
+	// 			fmt.Println("current page: ", pn)
+	// 			crawl(pn, db)
+	// 		}()
+	// 	}
+	// 	// wg.Wait()
+	// }
+
+	queue := make(chan int, 5)
 	for {
-		wg := &sync.WaitGroup{}
-		var mutex sync.Mutex
 		for i := 0; i < 5; i++ {
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				mutex.Lock()
-				pn++
-				mutex.Unlock()
-				fmt.Println("current page: ", pn)
-				claw(pn, db)
-			}()
+			pn++
+			go crawl(pn, db, queue)
 		}
-		wg.Wait()
+
+		for done := range queue {
+			fmt.Printf("page %d done", done)
+		}
 	}
+	fmt.Println("all done")
 }
 
 func getURL(pn int) string {
 	return fmt.Sprintf("https://api.bilibili.com/archive_rank/getarchiverankbypartion?callback=%s&type=jsonp&tid=20&pn=%d&_=1485407014635", jQueryStr, pn)
 }
 
-func claw(pn int, db *gorm.DB) {
+func crawl(pn int, db *gorm.DB, queue chan int) {
 	var pageInfo PageInfo
 	jsonStr := spider.GetHTML(getURL(pn))
 	if strings.Contains(jsonStr, `"code":-40002`) {
+		close(queue)
 		return
 	}
 	// remove useless prefix&suffix
@@ -91,10 +104,12 @@ func claw(pn int, db *gorm.DB) {
 	}
 
 	for _, v := range pageInfo.Data.Archives {
-		if v.Play >= 100000 || v.Favorites > 10000 {
-			fmt.Println("******************************")
-			fmt.Println(v)
-			db.Create(&v)
-		}
+		fmt.Println("av id:", v.ID)
+		// if v.Play >= 100000 || v.Favorites > 10000 {
+		// 	fmt.Println("******************************")
+		// 	fmt.Println(v)
+		// 	db.Create(&v)
+		// }
 	}
+	queue <- pn
 }
