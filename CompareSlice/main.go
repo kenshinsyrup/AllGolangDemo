@@ -6,13 +6,13 @@ import (
 )
 
 func main() {
-	// a := []string{"1"}
-	// b := []string(nil)
-	a := []string(nil)
+	// a := []string(nil)
+	var a []string
 	b := []string{}
-	fmt.Println(a)
-	fmt.Println(b)
+	fmt.Printf("a: %#v \n", a)
+	fmt.Printf("b: %#v \n", b)
 
 	fmt.Println(equal.StringSliceEqual(a, b))
 	fmt.Println(equal.StringSliceReflectEqual(a, b))
+	fmt.Println(equal.StringSliceEqualBCE(a, b))
 }
