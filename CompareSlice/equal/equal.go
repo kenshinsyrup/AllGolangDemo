@@ -20,8 +20,8 @@ func StringSliceEqual(a, b []string) bool {
 		return false
 	}
 
-	for i := range a {
-		if a[i] != b[i] {
+	for i, v := range a {
+		if v != b[i] {
 			return false
 		}
 	}
@@ -41,8 +41,8 @@ func StringSliceEqualBCE(a, b []string) bool {
 
 	// this line can ensure the next b[i] never out of index in for...range loop
 	b = b[:len(a)]
-	for i := range a {
-		if a[i] != b[i] {
+	for i, v := range a {
+		if v != b[i] {
 			return false
 		}
 	}
