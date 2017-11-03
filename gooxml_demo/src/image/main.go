@@ -2,6 +2,10 @@
 package main
 
 import (
+	"bytes"
+	"fmt"
+	"image"
+	"io/ioutil"
 	"log"
 
 	"baliance.com/gooxml/document"
@@ -15,10 +19,31 @@ var lorem = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin lobo
 func main() {
 	doc := document.New()
 
-	img, err := document.ImageFromFile("gophercolor.png")
+	// img, err := document.ImageFromFile("gophercolor.png")
+	// if err != nil {
+	// 	log.Fatalf("unable to create image: %s", err)
+	// }
+
+	tmplImageName := "gophercolor.png"
+	content, err := ioutil.ReadFile(tmplImageName)
+	fmt.Println("readfile err: ", err)
+	imgBuf := bytes.NewBuffer(content)
+	fmt.Println("********************")
+	fmt.Println("err: ", err)
 	if err != nil {
-		log.Fatalf("unable to create image: %s", err)
+		fmt.Println("fail to read image ", tmplImageName)
 	}
+	fmt.Println("size: ", imgBuf.Len())
+
+	img := document.Image{
+		Path: tmplImageName + "1",
+	}
+	imgDec, ifmt, err := image.Decode(imgBuf)
+	if err != nil {
+		fmt.Println("decode error: ", err)
+	}
+	img.Format = ifmt
+	img.Size = imgDec.Bounds().Size()
 
 	iref, err := doc.AddImage(img)
 	if err != nil {
