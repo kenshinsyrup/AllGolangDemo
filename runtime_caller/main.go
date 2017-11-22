@@ -75,4 +75,9 @@ func main() {
 	fooCaller(1)
 	// 验证：将fooCaller包含在一个wraper函数中，skip 1还是可以正确的找到fooCaller被调用的地方，即58行
 	wraper(fooCaller, 1)
+
+	// 所以，假设wrapper是一个error报告函数，那么我们希望得到wrapper的调用点，而wrapper内部的f函数才是真正的记录调用栈信息时
+	// 可以将skip按需要向上增加即可
+	// 得到wrapper被调用处的信息，即82行
+	wraper(fooCaller, 2)
 }
