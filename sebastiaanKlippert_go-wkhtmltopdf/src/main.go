@@ -11,6 +11,10 @@ import (
 /*
 Let's use this~
 PDF什么的都是异端，写好HTML专程PDF多好，要什么格式写什么格式
+
+注意需要先安装wkhtmltopdf
+在Mac端使用homebrew的话:
+brew install Caskroom/cask/wkhtmltopdf
 */
 
 func main() {
