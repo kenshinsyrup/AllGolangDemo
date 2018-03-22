@@ -110,8 +110,6 @@ func (m *Manager) TextToPath(text string, svgWidth, svgHeight, asize float32) st
 	var horizAdvY float32
 	var linePaths []string
 	size := asize / m.unitsPerEm
-	fmt.Println("unitsPerEm: ", m.unitsPerEm)
-	fmt.Println("size: ", size)
 
 	var biggestX float32
 	var biggestY float32
@@ -125,13 +123,13 @@ func (m *Manager) TextToPath(text string, svgWidth, svgHeight, asize float32) st
 		for _, c := range line {
 			char := string(c)
 			g := m.glyphMap[char]
-			paths = append(paths, fmt.Sprintf(`        <path transform="translate(%f) rotate(180) scale(-1, 1)" d="%s" />`, horizAdvX, g.d))
+			paths = append(paths, fmt.Sprintf(`<path transform="translate(%f) rotate(180) scale(-1, 1)" d="%s" />`, horizAdvX, g.d))
 			horizAdvX += g.horizAdvX
 			if biggestX < horizAdvX {
 				biggestX = horizAdvX
 			}
 		}
-		linePaths = append(linePaths, fmt.Sprintf(`    <g transform="scale(%f) translate(0,%f)">
+		linePaths = append(linePaths, fmt.Sprintf(`<g transform="scale(%f) translate(0,%f)">
 %s
 </g>`, size, horizAdvY, strings.Join(paths, "\n")))
 	}
